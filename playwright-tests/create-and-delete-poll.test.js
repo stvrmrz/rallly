@@ -1,14 +1,15 @@
 const { test, expect } = require('@playwright/test');
 const NewPollsPage = require('./pages/new-polls-page');
-const HomePage = require('./pages/home-page')
+const PollPage = require('./pages/polls-page');
+const LandingPage = require('./pages/landing-page');
 
 test('Create new poll', async ({ page }) => {
-  const homePage = new HomePage(page);
+  const landingPage = new LandingPage(page);
   const newPollsPage = new NewPollsPage(page);
-  // Land on the Home page
-  await homePage.navigateToHomePage();
+  // Open the app landing page
+  await landingPage.navigateToLandingPage();
   // Naviage to the new polls page
-  await homePage.navigateToCreatePoll();
+  await landingPage.navigateToCreatePoll();
   // Create a poll and close the dialog
   const pollPageWithDialogClosed = await newPollsPage.createPollAndCloseDialog(
     'Monthly Meeting',
@@ -20,25 +21,23 @@ test('Create new poll', async ({ page }) => {
 });
 
 test('Delete existing poll', async ({ page }) => {
-  const homePage = new HomePage(page);
+  const landingPage = new LandingPage(page);
   const newPollsPage = new NewPollsPage(page);
-  // Land on the Home page
-  await homePage.navigateToHomePage();
+  const pollsPage = new PollPage(page);
+  // Open the app landing page
+  await landingPage.navigateToLandingPage();
   // Naviage to the new polls page
-  await homePage.navigateToCreatePoll();
-  // Create poll
-  await newPollsPage.createPoll(
-    'Poll to Delete',
-    'Temporary Location',
-    'Temporary Description'
+  await landingPage.navigateToCreatePoll();
+  // Create a poll and close the dialog
+  const pollPageWithDialogClosed = await newPollsPage.createPollAndCloseDialog(
+    'Poll to delete',
+    'Temporary location',
+    'Temporary description'
   );
-  // Close dialoge and assert polls page
-  await page.getByRole('button', { name: 'Close' }).click();
-  await expect(page.getByRole('heading', { name: 'Participants' })).toBeVisible();
+  // Verify polls page is open
+  await expect(pollPageWithDialogClosed.page.getByRole('heading', { name: 'Participants' })).toBeVisible();
   // Delete poll
-  await page.getByRole('button', { name: 'Manage' }).click();
-  await page.getByRole('menuitem', { name: 'Delete' }).click();
-  await page.getByRole('button', { name: 'Delete' }).click()
+  await pollsPage.deletePoll();
   await expect(page.getByText('No polls')).toBeVisible();
 
 });
