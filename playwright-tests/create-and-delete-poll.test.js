@@ -15,13 +15,30 @@ test('Create a new poll', async ({ page }) => {
 
   // Step 3: Create a new poll and close the overlay dialog
   const pollPageWithDialogClosed = await newPollPage.createPollAndCloseDialog(
-    'Monthly Meeting',               // Poll title
-    'Steve\'s Coffee Shop',          // Poll location
+    'Monthly Meeting',                // Poll title
+    'Steve\'s Coffee Shop',           // Poll location
     'Choose dates that work for you!' // Poll description
   );
 
   // Step 4: Verify that the poll page is open
   await expect(pollPageWithDialogClosed.page.getByRole('heading', { name: 'Participants' })).toBeVisible();
+});
+
+test('Validate error messages for empty poll fields', async ({ page }) => {
+  const landingPage = new LandingPage(page);
+  const newPollPage = new NewPollPage(page);
+
+  // Step 1: Navigate to the app landing page
+  await landingPage.navigateToLandingPage();
+
+  // Step 2: Navigate to the new poll creation page
+  await landingPage.navigateToCreatePoll();
+
+  // Step 3: Attempt to create a poll with empty fields for title, location, and description
+  const errorMessage = await newPollPage.createPoll('', '', '');
+
+  // Step 4: Verify the appropriate error message is returned
+  expect(errorMessage).toBe('“Title” is required');
 });
 
 test('Delete a poll', async ({ page }) => {
