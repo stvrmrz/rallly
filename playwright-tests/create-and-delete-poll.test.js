@@ -9,15 +9,14 @@ test('Create new poll', async ({ page }) => {
   await homePage.navigateToHomePage();
   // Naviage to the new polls page
   await homePage.navigateToCreatePoll();
-  // Create poll
-  await newPollsPage.createPoll(
+  // Create a poll and close the dialog
+  const pollPageWithDialogClosed = await newPollsPage.createPollAndCloseDialog(
     'Monthly Meeting',
     'Steve\'s Coffee Shop',
-    'Hello, please choose dates that work for you!'
+    'Choose dates that work for you!'
   );
-  // Close dialoge and assert polls page
-  await page.getByRole('button', { name: 'Close' }).click();
-  await expect(page.getByRole('heading', { name: 'Participants' })).toBeVisible();
+  // Verify polls page is open
+  await expect(pollPageWithDialogClosed.page.getByRole('heading', { name: 'Participants' })).toBeVisible();
 });
 
 test('Delete existing poll', async ({ page }) => {
