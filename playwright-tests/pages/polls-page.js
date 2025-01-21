@@ -11,10 +11,10 @@ class PollPage {
     }
 
     async deletePoll() {
-        await this.page.getByRole('button', { name: 'Manage' }).click(); // Locate the Manage button by its role and click
-        await this.page.getByRole('menuitem', { name: 'Delete' }).click(); // Locate the Delete menu item by its role and click
-        await this.page.getByRole('button', { name: 'Delete' }).click(); // Locate the Delete button by its role and click
-      }
-  }
+      await this.page.getByRole('button', { name: 'Manage' }).click(); // Locate the Manage button by its role and click
+      await this.page.getByRole('menuitem', { name: 'Delete' }).click(); // Locate the Delete menu item by its role and click
+      await this.page.getByRole('button', { name: 'Delete' }).click(); // Locate the Delete button by its role and click
+    }
+}
   
-  module.exports = PollPage;  
+  module.exports = PollPage;

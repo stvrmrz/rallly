@@ -1,6 +1,6 @@
 const PollPage = require('./polls-page'); // Import PollPage class
 
-class NewPollsPage {
+class NewPollPage {
   constructor(page) {
     this.page = page; // Assigns the Playwright `page` object to the instance
   }
@@ -40,4 +40,4 @@ class NewPollsPage {
   }
 }
 
-module.exports = NewPollsPage;
+module.exports = NewPollPage;
