@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+const NewPollsPage = require('./pages/new-polls-page');
 
 test('Check Rallly homepage title', async ({ page }) => {
   await page.goto('http://localhost:3000');
@@ -6,22 +7,17 @@ test('Check Rallly homepage title', async ({ page }) => {
 });
 
 test('Create new poll', async ({ page }) => {
+  const newPollsPage = new NewPollsPage(page);
+
   await page.goto('http://localhost:3000/');
   await page.getByRole('navigation').getByRole('link', { name: 'Create' }).click();
   
-  // Assert create-poll-page and create poll
-  await expect(page.getByText('EventDescribe what your event')).toBeVisible();
-  await page.getByPlaceholder('Monthly Meetup').click();
-  await page.getByPlaceholder('Monthly Meetup').fill('Monthly Meeting');
-  await page.getByPlaceholder('Joe\'s Coffee Shop').click();
-  await page.getByPlaceholder('Joe\'s Coffee Shop').fill('Steve\'s Coffee Shop');
-  await page.getByPlaceholder('Hey everyone, please choose').click();
-  await page.getByPlaceholder('Hey everyone, please choose').fill('Hello, please choose dates that work for you!');
-  await page.click('[title="Next month"]');
-  await page.click("text=/^7$/");
-  await page.click("text=/^14$/");
-  await page.click("text=/^21$/");
-  await page.getByRole('button', { name: 'Create poll' }).click();
+  // Create poll
+  await newPollsPage.createPoll(
+    'Monthly Meeting',
+    'Steve\'s Coffee Shop',
+    'Hello, please choose dates that work for you!'
+  );
   
   // Assert poll-page
   await page.getByRole('button', { name: 'Close' }).click();
@@ -29,22 +25,16 @@ test('Create new poll', async ({ page }) => {
 });
 
 test('Delete existing poll', async ({ page }) => {
+  const newPollsPage = new NewPollsPage(page);
   await page.goto('http://localhost:3000/');
   await page.getByRole('navigation').getByRole('link', { name: 'Create' }).click();
   
-  // Assert create-poll-page and create poll
-  await expect(page.getByText('EventDescribe what your event')).toBeVisible();
-  await page.getByPlaceholder('Monthly Meetup').click();
-  await page.getByPlaceholder('Monthly Meetup').fill('Monthly Meeting');
-  await page.getByPlaceholder('Joe\'s Coffee Shop').click();
-  await page.getByPlaceholder('Joe\'s Coffee Shop').fill('Steve\'s Coffee Shop');
-  await page.getByPlaceholder('Hey everyone, please choose').click();
-  await page.getByPlaceholder('Hey everyone, please choose').fill('Hello, please choose dates that work for you!');
-  await page.click('[title="Next month"]');
-  await page.click("text=/^7$/");
-  await page.click("text=/^14$/");
-  await page.click("text=/^21$/");
-  await page.getByRole('button', { name: 'Create poll' }).click();
+  // Create poll
+  await newPollsPage.createPoll(
+    'Poll to Delete',
+    'Temporary Location',
+    'Temporary Description'
+  );
   
   // Assert poll-page
   await page.getByRole('button', { name: 'Close' }).click();
