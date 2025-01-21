@@ -30,7 +30,12 @@ Install the necessary dependencies, including Prisma using yarn or npm:
    ```sh
    npm install
    ```
-4. Start the Application Locally
+4. Set Up Environment Variables
+Copy the .env.development file to .env:
+   ```sh
+   cp .env.development .env
+   ```
+5. Start the Application Locally
 To run the application locally make sure Docker is installed and running. Start the necessary services:
    ```sh
    yarn docker:up
@@ -38,30 +43,30 @@ To run the application locally make sure Docker is installed and running. Start 
    ```sh
    npm run docker:up
    ```
-5. Reset the database to set up a clean slate:
+6. Reset the database to set up a clean slate:
    ```sh
    yarn db:reset
    ```
    ```sh
    npm run db:reset
    ```
-6. Start the application:
+7. Start the application:
    ```sh
    yarn dev
    ```
    ```sh
    npm run dev
    ```
-7. The app will now be running at http://localhost:3000.
-8. Install Playwright
+8. The app will now be running at http://localhost:3000.
+9. Install Playwright
    ```sh
    npx playwright install
    ```
-9. To run all Playwright tests:
+10. To run all Playwright tests:
    ```sh
    npx playwright test
    ```
-9. To debug tests with Playwright Inspector:
+11. To debug tests with Playwright Inspector:
    ```sh
    npx playwright test --debug
    ```
