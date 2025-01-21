@@ -7,7 +7,18 @@ This repository contains Playwright tests for the Rallly application, a tool for
 
 Please follow these steps if you'd like to clone the repo so you can can see the files yourself
 
-### Prerequisites
+### Test Configuration
+
+- This project contains multiple Playwright configurations:
+  - **`playwright.config.js`**:
+    - Used for the Playwright tests in the `playwright-tests/` directory.
+    - This configuration ensures only the relevant tests are executed.
+  - **`playwright.config.ts`**:
+    - Related to other tests in the repository that use TypeScript.
+    - This configuration is not used for the Playwright tests submitted for this exercise.
+
+- To ensure only the relevant tests run, the `testDir` in `playwright.config.js` is set to `./playwright-tests`, and unrelated files are ignored.
+
 
 Please have a GitHub account and set up your SSH key so you may git pull the latest changes to the repository. It's
 reccomended to install Visual Studio code as well.
